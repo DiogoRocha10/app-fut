@@ -35,7 +35,7 @@ const Authorization = (props) => {
         renderItem={
           ({ item }) =>
             <TouchableOpacity
-              onPress={() => navigation.navigate("Fases")}
+              onPress={() => navigation.navigate("Fases", {campeonatoId: item.campeonato_id })}
             >
               <Text style={styles.item}>
                 {item.edicao_atual.nome}
@@ -55,7 +55,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     marginTop: 20,
-  }, item: {
+  }, 
+  
+  item: {
     borderWidth: 1,
     borderColor: "gray",
     width: "90%",
@@ -63,13 +65,5 @@ const styles = StyleSheet.create({
     marginTop: 5,
     padding: 3,
     textAlign: 'center'
-  }, tinyLogo: {
-    width: 100,
-    height: 100,
-    marginTop: 5,
-    borderRadius: 200
-  }, containerFoto: {
-    width: "100%",
-    alignItems: "center"
   }
 });

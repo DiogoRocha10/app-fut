@@ -1,74 +1,77 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity, Button} from 'react-native';
 import axios from 'axios'
 
-
-const Jogos = () => {
+const Jogos = (props) => {
   const token = 'live_87cd4f22785310efca483c144ae5ee'
-  const [resultado, setResultado] = useState([])
+  const { navigation } = props;
+  const { route } = props;
+  const { campeonatoId, faseId } = route.params;
 
+  const [jogos, setJogos] = useState([]);
+  const [mensagem, setMensagem] = useState([]);
 
-    const getFriends = () => {
-      axios.get('https://api.api-futebol.com.br/v1/campeonatos', 
-      {headers: {'Jogos': `Bearer ${token}`}})
-        .then((resultado) => {
-          setResultado(resultado.data)
-        })
-        .catch((erro) => {
-          setResultado(erro)
-        })
-    }
-    useEffect(
-      () => {
-        getFriends()
+  const getJogos = () => {
+    axios
+      .get(
+        `https://api.api-futebol.com.br/v1/campeonatos/${campeonatoId}/fases/${faseId}`,
+        {headers: {'Authorization': `Bearer ${token}`}})
+      
+      .then((retorno) => {
+        const chaves = retorno.data.chaves;
+        const arrayChaves = [];
 
-      }, []
-    )
-
-
-    
-    return(
-      <View style={styles.container}>
-      <FlatList
-        data={resultado}
-        renderItem={
-          ({ item }) =>
-            <TouchableOpacity
-              onPress={() => navigation.navigate("Fases")}
-            >
-              <Text style={styles.item}>
-                {item.edicao_atual.nome}
-              </Text>
-            </TouchableOpacity>
+        for (var chave in chaves) {
+          arrayChaves.push(chaves[chave]);
         }
-        keyExtractor={(item) => item.edicao_atual}
+        setJogos(arrayChaves);
+        console.log(jogos);
+      })
+      .catch((erro) => {
+        console.log(erro);
+      });
+  };
+
+  useEffect(() => {
+    getJogos();
+  }, []);
+
+  return (
+    <View style={styles.container}>
+      <Text> {mensagem} </Text>
+      <FlatList
+        data={jogos}
+        renderItem={({ item }) => (
+          <TouchableOpacity onPress={() => console.log(item)}>
+            <Text style={styles.item}>{item.ida[0].placar}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.email}
+      />
+      <Button
+        title="Sair"
+        onPress={() => navigation.replace("Login")}
+        color="red"
       />
     </View>
   );
-}
+};
 
-export default Jogos
+export default Jogos;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 20,
-  }, item: {
+    alignItems: "center",
+    marginTop: 10,
+  },
+  item: {
     borderWidth: 1,
     borderColor: "gray",
     width: "90%",
     marginLeft: "5%",
-    marginTop: 5,
+    marginTop: 10,
     padding: 3,
-    textAlign: 'center'
-  }, tinyLogo: {
-    width: 100,
-    height: 100,
-    marginTop: 5,
-    borderRadius: 200
-  }, containerFoto: {
-    width: "100%",
-    alignItems: "center"
-  }
+    textAlign: "center",
+  },
 });
