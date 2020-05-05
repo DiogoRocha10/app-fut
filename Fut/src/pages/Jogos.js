@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, Button} from 'react
 import axios from 'axios'
 
 const Jogos = (props) => {
-  const token = 'live_87cd4f22785310efca483c144ae5ee'
+  const token = 'live_d1aa0187e5372b0090d8f278d40300'
   const { navigation } = props;
   const { route } = props;
   const { campeonatoId, faseId } = route.params;
@@ -38,12 +38,14 @@ const Jogos = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text> {mensagem} </Text>
       <FlatList
         data={jogos}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => console.log(item)}>
-            <Text style={styles.item}>{item.ida[0].placar}</Text>
+          <TouchableOpacity 
+          style={styles.buttonStyle}
+          onPress={() => console.log(item)}>
+
+            <Text style={styles.textStyle}>{item.ida[0].placar}</Text>
           </TouchableOpacity>
         )}
         keyExtractor={(item) => item.email}
@@ -63,15 +65,26 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    marginTop: 10,
+    marginTop: 0,
   },
-  item: {
+  textStyle: {
+    alignSelf: 'center',
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  buttonStyle: {
+    backgroundColor: '#3AC330',
     borderWidth: 1,
-    borderColor: "gray",
-    width: "90%",
-    marginLeft: "5%",
+    borderColor: '#000',
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingRight: 10,
+    paddingLeft: 10,
     marginTop: 10,
-    padding: 3,
-    textAlign: "center",
+    width: 300,
+    borderRadius: 20
   },
 });

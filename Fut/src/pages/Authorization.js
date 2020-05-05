@@ -6,7 +6,7 @@ import axios from 'axios'
 const Authorization = (props) => {
   const { navigation } = props
 
-  const token = 'live_87cd4f22785310efca483c144ae5ee'
+  const token = 'live_d1aa0187e5372b0090d8f278d40300'
   const [resultado, setResultado] = useState([])
 
 
@@ -30,14 +30,16 @@ const Authorization = (props) => {
 
     return(
       <View style={styles.container}>
+        <Text style={styles.header}> Seja Bem-Vindo </Text>
       <FlatList
         data={resultado}
         renderItem={
           ({ item }) =>
             <TouchableOpacity
+              style={styles.buttonStyle}
               onPress={() => navigation.navigate("Fases", {campeonatoId: item.campeonato_id })}
             >
-              <Text style={styles.item}>
+              <Text style={styles.textStyle}>
                 {item.edicao_atual.nome}
               </Text>
             </TouchableOpacity>
@@ -53,17 +55,31 @@ export default Authorization
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 20,
-  }, 
-  
-  item: {
+    alignItems: "center",
+    marginTop: 10,
+  },
+  header: {
+    fontSize: 36,
+    margin: 50
+  },
+  textStyle: {
+    alignSelf: 'center',
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
+    paddingTop: 10,
+    paddingBottom: 10
+  },
+  buttonStyle: {
+    backgroundColor: '#0057e7',
     borderWidth: 1,
-    borderColor: "gray",
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: 5,
-    padding: 3,
-    textAlign: 'center'
+    borderColor: '#000',
+    paddingTop: 4,
+    paddingBottom: 4,
+    paddingRight: 25,
+    paddingLeft: 25,
+    marginTop: 10,
+    width: 300,
+    borderRadius: 20
   }
 });

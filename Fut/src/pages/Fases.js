@@ -11,7 +11,7 @@ const Fases = (props) => {
   const [fases, setFases] = useState([])
   const [mensagem, setMensagem] = useState([]);
   
-  const token = 'live_7a272cfcee40b533c1778fcec94510'
+  const token = 'live_d1aa0187e5372b0090d8f278d40300'
 
     const getFases = () => {
       axios.get(`https://api.api-futebol.com.br/v1/campeonatos/${campeonatoId}`, 
@@ -37,7 +37,6 @@ const Fases = (props) => {
         });
     };
     
-
     useEffect(
       () => {
         getFases()
@@ -47,18 +46,19 @@ const Fases = (props) => {
 
     return(
       <View style={styles.container}>
-        <Text> {mensagem} </Text>
+        <Text style={styles.header}> {mensagem} </Text>
       <FlatList
         data={fases}
         renderItem={
           ({ item }) =>
           <TouchableOpacity
+          style={styles.buttonStyle}
           onPress={() =>
             navigation.replace("Jogos", {campeonatoId, faseId: item.fase_id,
             })
           }
           >
-            <Text style={styles.item}>{item.nome}</Text>
+            <Text style={styles.textStyle}>{item.nome}</Text>
           </TouchableOpacity>
         }
         keyExtractor={(item) => item.campeonato_id}
@@ -71,20 +71,34 @@ const Fases = (props) => {
 export default Fases
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    marginTop: 20,
-  },
-  
-  item: {
-    borderWidth: 1,
-    borderColor: "gray",
-    width: "90%",
-    marginLeft: "5%",
-    marginTop: 5,
-    padding: 3,
-    textAlign: 'center'
-  }, 
-  
+container: {
+  flex: 1,
+  alignItems: "center",
+  marginTop: 10,
+},
+header: {
+  fontSize: 24,
+  margin: 50
+},
+textStyle: {
+  alignSelf: 'center',
+  color: '#fff',
+  fontSize: 16,
+  fontWeight: '600',
+  paddingTop: 10,
+  paddingBottom: 10
+},
+buttonStyle: {
+  backgroundColor: '#3AC330',
+  borderWidth: 1,
+  borderColor: '#000',
+  paddingTop: 4,
+  paddingBottom: 4,
+  paddingRight: 25,
+  paddingLeft: 25,
+  marginTop: 10,
+  width: 200,
+  borderRadius: 20
+},
+
 });
