@@ -11,7 +11,7 @@ const Fases = (props) => {
   const [fases, setFases] = useState([])
   const [mensagem, setMensagem] = useState([]);
   
-  const token = 'live_d1aa0187e5372b0090d8f278d40300'
+  const token = 'live_8a89fdbd81efb8400bd66bdce6fc0c'
 
     const getFases = () => {
       axios.get(`https://api.api-futebol.com.br/v1/campeonatos/${campeonatoId}`, 

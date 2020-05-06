@@ -1,56 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
-import axios from 'axios'
-
+import React, { useState, useEffect } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
+import axios from "axios";
 
 const Authorization = (props) => {
-  const { navigation } = props
+  const { navigation } = props;
+  const [resultados, setResultados] = useState([]);
+  const token = 'live_8a89fdbd81efb8400bd66bdce6fc0c'
 
-  const token = 'live_d1aa0187e5372b0090d8f278d40300'
-  const [resultado, setResultado] = useState([])
+  const getChampionships = () => {
+    axios
+      .get("https://api.api-futebol.com.br/v1/campeonatos", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((retorno) => {
+        setResultados(retorno.data);
+      })
+      .catch((erro) => {
+        console.log(erro);
+      });
+  };
 
+  useEffect(() => {
+    getChampionships();
+  }, []);
 
-    const getCampeonatos = () => {
-      axios.get('https://api.api-futebol.com.br/v1/campeonatos', 
-      {headers: {'Authorization': `Bearer ${token}`}})
-        .then((resultado) => {
-          setResultado(resultado.data)
-        })
-        .catch((erro) => {
-          setResultado(erro)
-        })
-
-    }
-    useEffect(
-      () => {
-        getCampeonatos()
-
-      }, []
-    )
-
-    return(
-      <View style={styles.container}>
-        <Text style={styles.header}> Seja Bem-Vindo </Text>
+  return (
+    <View style={styles.container}>
+      <Text style={styles.header}> Seja Bem-Vindo </Text>
       <FlatList
-        data={resultado}
-        renderItem={
-          ({ item }) =>
-            <TouchableOpacity
-              style={styles.buttonStyle}
-              onPress={() => navigation.navigate("Fases", {campeonatoId: item.campeonato_id })}
-            >
-              <Text style={styles.textStyle}>
-                {item.edicao_atual.nome}
-              </Text>
-            </TouchableOpacity>
-        }
-        keyExtractor={(item) => item.edicao_atual}
+        data={resultados}
+        renderItem={({ item }) => (
+          <TouchableOpacity
+            style={styles.buttonStyle}
+            onPress={() =>
+              navigation.replace("Fases", { campeonatoId: item.campeonato_id })
+            }
+          >
+            <Text style={styles.textStyle}>{item.nome_popular}</Text>
+          </TouchableOpacity>
+        )}
+        keyExtractor={(item) => item.email}
       />
     </View>
   );
-}
+};
 
-export default Authorization
+export default Authorization;
 
 const styles = StyleSheet.create({
   container: {

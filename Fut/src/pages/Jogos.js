@@ -3,13 +3,12 @@ import { StyleSheet, Text, View, FlatList, TouchableOpacity, Button} from 'react
 import axios from 'axios'
 
 const Jogos = (props) => {
-  const token = 'live_d1aa0187e5372b0090d8f278d40300'
+  const token = 'live_8a89fdbd81efb8400bd66bdce6fc0c'
   const { navigation } = props;
   const { route } = props;
   const { campeonatoId, faseId } = route.params;
 
   const [jogos, setJogos] = useState([]);
-  const [mensagem, setMensagem] = useState([]);
 
   const getJogos = () => {
     axios
